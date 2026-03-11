@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 스마트전기과 소방반</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    padding: 16px;
+    padding-bottom: 40px;
+  }
+  header {
+    text-align: center;
+    padding: 24px 0 20px;
+  }
+  header h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  header p {
+    font-size: 0.85rem;
+    color: #86868b;
+    margin-top: 6px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+  }
+  .card:active { transform: scale(0.97); }
+  .card img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    display: block;
+  }
+  .card .name {
+    text-align: center;
+    padding: 8px 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .count {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #86868b;
+    margin-top: 4px;
+  }
+
+  /* Fullscreen overlay */
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .overlay.active { display: flex; }
+  .overlay img {
+    max-width: 92vw;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+  .overlay .name {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 16px;
+  }
+  .overlay .close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    color: #fff;
+    font-size: 1.8rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 8px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>2026 스마트전기과<br>전문기술과정 소방반</h1>
+  <p class="count">총 23명</p>
+</header>
+
+<div class="grid" id="grid"></div>
+
+<div class="overlay" id="overlay" onclick="closeOverlay()">
+  <span class="close">&times;</span>
+  <img id="overlayImg" src="" alt="">
+  <div class="name" id="overlayName"></div>
+</div>
+
+<script>
+const students = [
+  "김덕민.jpg","김영학.png","김인영.jpg","김지은.jpg","류현.jpg",
+  "박치환.jpg","배순웅.jpg","백든솔.jpg","백승엽.jpg","서용주.jpg",
+  "선대호.jpg","신창희.jpg","오진규.jpg","윤여중.jpg","이승엽.jpg",
+  "이우성.png","이한빛.jpg","인순환.jpg","임대섭.jpg","임태혁.jpg",
+  "정준희.jpg","조영준.jpg","최정훈.jpg"
+];
+
+const grid = document.getElementById('grid');
+students.forEach(file => {
+  const name = file.replace(/\.\w+$/, '');
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `<img src="${file}" alt="${name}" loading="lazy"><div class="name">${name}</div>`;
+  card.onclick = () => openOverlay(file, name);
+  grid.appendChild(card);
+});
+
+function openOverlay(src, name) {
+  document.getElementById('overlayImg').src = src;
+  document.getElementById('overlayName').textContent = name;
+  document.getElementById('overlay').classList.add('active');
+}
+
+function closeOverlay() {
+  document.getElementById('overlay').classList.remove('active');
+}
+</script>
+
+</body>
+</html>
