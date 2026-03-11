@@ -27,6 +27,58 @@
     color: #86868b;
     margin-top: 6px;
   }
+
+  /* Login screen */
+  .login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+  }
+  .login h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 32px;
+  }
+  .login input {
+    width: 200px;
+    padding: 14px 16px;
+    font-size: 1.2rem;
+    border: 2px solid #d2d2d7;
+    border-radius: 12px;
+    text-align: center;
+    outline: none;
+    letter-spacing: 8px;
+    -webkit-appearance: none;
+  }
+  .login input:focus {
+    border-color: #0071e3;
+  }
+  .login button {
+    margin-top: 16px;
+    padding: 12px 48px;
+    font-size: 1rem;
+    font-weight: 600;
+    background: #0071e3;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+  .login button:active { opacity: 0.8; }
+  .login .error {
+    color: #ff3b30;
+    font-size: 0.85rem;
+    margin-top: 12px;
+    min-height: 20px;
+  }
+
+  /* Gallery */
+  .gallery { display: none; }
+  .gallery.active { display: block; }
   .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -99,12 +151,22 @@
 </head>
 <body>
 
-<header>
-  <h1>2026 스마트전기과<br>전문기술과정 소방반</h1>
-  <p class="count">총 23명</p>
-</header>
+<!-- Login Screen -->
+<div class="login" id="loginScreen">
+  <h1>2026년<br>스마트전기과 소방반입니다.<br><br>비번은 1947 입니다.</h1>
+  <input type="password" id="pwInput" inputmode="numeric" maxlength="4" placeholder="****">
+  <button onclick="checkPassword()">입장</button>
+  <div class="error" id="errorMsg"></div>
+</div>
 
-<div class="grid" id="grid"></div>
+<!-- Gallery Screen -->
+<div class="gallery" id="galleryScreen">
+  <header>
+    <h1>2026 스마트전기과<br>전문기술과정 소방반</h1>
+    <p class="count">총 23명</p>
+  </header>
+  <div class="grid" id="grid"></div>
+</div>
 
 <div class="overlay" id="overlay" onclick="closeOverlay()">
   <span class="close">&times;</span>
@@ -113,23 +175,43 @@
 </div>
 
 <script>
-const students = [
-  "김덕민.jpg","김영학.png","김인영.jpg","김지은.jpg","류현.jpg",
-  "박치환.jpg","배순웅.jpg","백든솔.jpg","백승엽.jpg","서용주.jpg",
-  "선대호.jpg","신창희.jpg","오진규.jpg","윤여중.jpg","이승엽.jpg",
-  "이우성.png","이한빛.jpg","인순환.jpg","임대섭.jpg","임태혁.jpg",
-  "정준희.jpg","조영준.jpg","최정훈.jpg"
-];
+const pwInput = document.getElementById('pwInput');
 
-const grid = document.getElementById('grid');
-students.forEach(file => {
-  const name = file.replace(/\.\w+$/, '');
-  const card = document.createElement('div');
-  card.className = 'card';
-  card.innerHTML = `<img src="${file}" alt="${name}" loading="lazy"><div class="name">${name}</div>`;
-  card.onclick = () => openOverlay(file, name);
-  grid.appendChild(card);
+pwInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') checkPassword();
 });
+
+function checkPassword() {
+  if (pwInput.value === '1947') {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('galleryScreen').classList.add('active');
+    loadGallery();
+  } else {
+    document.getElementById('errorMsg').textContent = '비밀번호가 틀렸습니다.';
+    pwInput.value = '';
+    pwInput.focus();
+  }
+}
+
+function loadGallery() {
+  const students = [
+    "김덕민.jpg","김영학.png","김인영.jpg","김지은.jpg","류현.jpg",
+    "박치환.jpg","배순웅.jpg","백든솔.jpg","백승엽.jpg","서용주.jpg",
+    "선대호.jpg","신창희.jpg","오진규.jpg","윤여중.jpg","이승엽.jpg",
+    "이우성.png","이한빛.jpg","인순환.jpg","임대섭.jpg","임태혁.jpg",
+    "정준희.jpg","조영준.jpg","최정훈.jpg"
+  ];
+
+  const grid = document.getElementById('grid');
+  students.forEach(file => {
+    const name = file.replace(/\.\w+$/, '');
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `<img src="${file}" alt="${name}" loading="lazy"><div class="name">${name}</div>`;
+    card.onclick = () => openOverlay(file, name);
+    grid.appendChild(card);
+  });
+}
 
 function openOverlay(src, name) {
   document.getElementById('overlayImg').src = src;
