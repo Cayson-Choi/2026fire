@@ -154,9 +154,7 @@
 <!-- Login Screen -->
 <div class="login" id="loginScreen">
   <h1>2026년<br>스마트전기과 소방반입니다.</h1>
-  <input type="password" id="pwInput" inputmode="numeric" maxlength="4" placeholder="****">
-  <button onclick="checkPassword()">입장</button>
-  <div class="error" id="errorMsg"></div>
+  <button onclick="enter()">입장</button>
 </div>
 
 <!-- Gallery Screen -->
@@ -175,22 +173,10 @@
 </div>
 
 <script>
-const pwInput = document.getElementById('pwInput');
-
-pwInput.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') checkPassword();
-});
-
-function checkPassword() {
-  if (pwInput.value === '1947') {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('galleryScreen').classList.add('active');
-    loadGallery();
-  } else {
-    document.getElementById('errorMsg').textContent = '비밀번호가 틀렸습니다.';
-    pwInput.value = '';
-    pwInput.focus();
-  }
+function enter() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('galleryScreen').classList.add('active');
+  loadGallery();
 }
 
 function loadGallery() {
